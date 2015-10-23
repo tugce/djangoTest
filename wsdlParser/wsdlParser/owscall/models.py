@@ -6,6 +6,6 @@ class Wsdl(models.Model):
     endpoint = models.TextField()
 
 class Method(models.Model):
-    wsdlId = models.ForeignKey('Wsdl.Id')
+    wsdlId = models.ForeignKey('owscall.Wsdl')
     name = models.CharField(max_length=200)
     paremeters = models.TextField()
