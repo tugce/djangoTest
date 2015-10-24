@@ -46,3 +46,11 @@ def wsdl_edit(request, pk):
     else:
         form = WsdlForm(instance=wsdl)
     return render(request, 'owscall/wsdl_edit.html', {'form': form})
+def method_list(request, pk):
+    print "pk ===== ", pk
+    wsdl = Wsdl.objects.get_object_or_404(Wsdl, pk=pk)
+    methods = wsdl.returnMethods(self)
+    return render(request, 'owscall/method_list.html', {'methods': methods})
+def method_detail(request, pk):
+    method = get_object_or_404(Method, pk=pk)
+    return render(request, 'owscall/method_detail.html', {'method': method})

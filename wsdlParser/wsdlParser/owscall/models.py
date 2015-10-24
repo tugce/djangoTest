@@ -6,6 +6,9 @@ class Wsdl(models.Model):
     endpoint = models.TextField()
     def __str__(self):
         return self.name
+    def returnMethods(self):
+        methods = Method.objects.filter(wsdlId=self)
+        return methods
 
 class Method(models.Model):
     wsdlId = models.ForeignKey('owscall.Wsdl')

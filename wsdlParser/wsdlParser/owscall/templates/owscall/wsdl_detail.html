@@ -8,6 +8,8 @@
             </div>
         {% endif %}
         <a class="btn btn-default" href="{% url "wsdl_edit" pk=wsdl.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+        <a class="btn btn-default" href="{% url "method_detail" pk=wsdl.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+
         <h1>{{ wsdl.name }}</h1>
         <p>{{ wsdl.endpoints }}</p>
     </div>

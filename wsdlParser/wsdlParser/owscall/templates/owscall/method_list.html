@@ -1,0 +1,11 @@
+{% extends "owscall/base.html" %}
+
+{% block content %}
+{% for method in methods %}
+<div class="method">
+
+  <p>{{ method.name }}</p>
+  <p>{{ method.paremeters }}</p>
+</div>
+{% endfor %}
+{% endblock content %}

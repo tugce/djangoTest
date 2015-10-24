@@ -1,0 +1,13 @@
+{% extends "owscall/base.html" %}
+
+{% block content %}
+    <div class="method">
+        {% if method.name %}
+            <div class="text">
+                {{ method.name }}
+            </div>
+        {% endif %}
+        <h1>{{ method.name }}</h1>
+        <p>{{ method.paremeters }}</p>
+    </div>
+{% endblock %}
