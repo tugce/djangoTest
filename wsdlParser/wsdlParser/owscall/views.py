@@ -7,7 +7,6 @@ import logging.config
 # Create your views here.
 def wsdl_list(request):
     wsdls = Wsdl.objects.all()
-    print wsdls
     return render(request, 'owscall/wsdl_list.html', {'wsdls': wsdls})
 def wsdl_detail(request, pk):
     wsdl = get_object_or_404(Wsdl, pk=pk)
@@ -20,16 +19,14 @@ def wsdl_new(request):
             wsdl.name = form.cleaned_data['name']
             print wsdl.name
             client = Client(wsdl.name)
+            print client
             wsdl.save()
             for method in client.wsdl.services[0].ports[0].methods.values():
                 methodW = Method()
                 methodW.wsdlId = wsdl
                 methodW.name = method.name
                 methodW.paremeters = method.soap.input.body.parts
-                print 'Method name = ', method.name
-                print 'Method parameters = ', methodW.paremeters
                 methodW.save()
-
             return redirect('owscall.views.wsdl_detail', pk=wsdl.pk)
     else:
         form = WsdlForm()
@@ -53,3 +50,12 @@ def method_list(request, wsdl_id):
 def method_detail(request, pk):
     method = get_object_or_404(Method, pk=pk)
     return render(request, 'owscall/method_detail.html', {'method': method})
+def method_detail_request(request, pk):
+    print "inside method detail request"
+    method = get_object_or_404(Method, pk=pk)
+    print method
+    client = Client(method.wsdlId)
+    print client
+    result = getattr(client.service, method.name)()
+    print result
+    return render(request, 'owscall/method_detail_request.html')

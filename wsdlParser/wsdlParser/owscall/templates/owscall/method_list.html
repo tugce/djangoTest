@@ -3,7 +3,7 @@
 {% block content %}
 {% for method in methods %}
 <div class="method">
-  <a class="btn btn-default" href="{% url "method_detail" pk=method.pk %}"><span class="glyphicon glyphicon-tasks"></span></a>
+  <a class="btn btn-default" href="{% url "method_detail_request" pk=method.pk %}"><span class="glyphicon glyphicon-tasks"></span></a>
   <p>{{ method.name }}</p>
   <p>{{ method.paremeters }}</p>
 </div>
