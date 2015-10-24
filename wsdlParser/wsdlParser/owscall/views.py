@@ -21,9 +21,9 @@ def wsdl_new(request):
             print wsdl.name
             client = Client(wsdl.name)
             wsdl.save()
-            methodW = Method()
-            methodW.wsdlId = wsdl
             for method in client.wsdl.services[0].ports[0].methods.values():
+                methodW = Method()
+                methodW.wsdlId = wsdl
                 methodW.name = method.name
                 methodW.paremeters = method.soap.input.body.parts
                 print 'Method name = ', method.name
