@@ -6,6 +6,6 @@ urlpatterns = [
     url(r'^wsdl/(?P<pk>[0-9]+)/$', views.wsdl_detail, name='wsdl_detail'),
     url(r'^wsdl/new/$', views.wsdl_new, name='wsdl_new'),
     url(r'^wsdl/(?P<pk>[0-9]+)/edit/$', views.wsdl_edit, name='wsdl_edit'),
-    url(r'^$', views.method_list, name='method_list'),
+    url(r'^methods/(?P<wsdl_id>\d+)$', views.method_list, name='method_list'),
     url(r'^method/(?P<pk>[0-9]+)/$', views.method_detail, name='method_detail'),
 ]
