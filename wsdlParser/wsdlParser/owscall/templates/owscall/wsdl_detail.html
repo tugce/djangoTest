@@ -1,0 +1,14 @@
+{% extends "owscall/base.html" %}
+
+{% block content %}
+    <div class="wsdl">
+        {% if wsdl.name %}
+            <div class="text">
+                {{ wsdl.name }}
+            </div>
+        {% endif %}
+        <a class="btn btn-default" href="{% url "wsdl_edit" pk=wsdl.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+        <h1>{{ wsdl.name }}</h1>
+        <p>{{ wsdl.endpoints }}</p>
+    </div>
+{% endblock %}

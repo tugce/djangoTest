@@ -1,6 +1,48 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Wsdl, Method
+from django.shortcuts import redirect
+from .forms import WsdlForm
 from suds.client import Client
+import logging.config
 # Create your views here.
-def get_wsdl(request):
-    return render(request, 'owscall/get_wsdl.html', {})
+def wsdl_list(request):
+    wsdls = Wsdl.objects.all()
+    print wsdls
+    return render(request, 'owscall/wsdl_list.html', {'wsdls': wsdls})
+def wsdl_detail(request, pk):
+    wsdl = get_object_or_404(Wsdl, pk=pk)
+    return render(request, 'owscall/wsdl_detail.html', {'wsdl': wsdl})
+def wsdl_new(request):
+    if request.method == "POST":
+        form = WsdlForm(request.POST)
+        if form.is_valid():
+            wsdl = form.save(commit=False)
+            wsdl.name = form.cleaned_data['name']
+            print wsdl.name
+            client = Client(wsdl.name)
+            wsdl.save()
+            methodW = Method()
+            methodW.wsdlId = wsdl
+            for method in client.wsdl.services[0].ports[0].methods.values():
+                methodW.name = method.name
+                methodW.paremeters = method.soap.input.body.parts
+                print 'Method name = ', method.name
+                print 'Method parameters = ', methodW.paremeters
+                methodW.save()
+
+            return redirect('owscall.views.wsdl_detail', pk=wsdl.pk)
+    else:
+        form = WsdlForm()
+    return render(request, 'owscall/wsdl_edit.html', {'form': form})
+def wsdl_edit(request, pk):
+    wsdl = get_object_or_404(Wsdl, pk=pk)
+    if request.method == "POST":
+        form = WsdlForm(request.POST, instance=wsdl)
+        if form.is_valid():
+            wsdl = form.save(commit=False)
+            wsdl.name = form.cleaned_data['name']
+            wsdl.save()
+            return redirect('owscall.views.wsdl_detail', pk=wsdl.pk)
+    else:
+        form = WsdlForm(instance=wsdl)
+    return render(request, 'owscall/wsdl_edit.html', {'form': form})

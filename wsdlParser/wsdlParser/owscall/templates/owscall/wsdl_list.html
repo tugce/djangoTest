@@ -1,0 +1,13 @@
+{% extends "owscall/base.html" %}
+
+{% block content %}
+    {% for wsdl in wsdls %}
+        <div class="wsdl">
+            <div class="text">
+                {{ wsdl.name }}
+            </div>
+            <h1><a href="{% url "wsdl_detail" pk=wsdl.pk %}">{{ wsdl.name }}</a></h1>
+            <p>{{ wsdl.endpoint }}</p>
+        </div>
+    {% endfor %}
+{% endblock content %}
