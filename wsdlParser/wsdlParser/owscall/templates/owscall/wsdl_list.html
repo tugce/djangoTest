@@ -7,7 +7,7 @@
                 {{ wsdl.name }}
             </div>
             <h1><a href="{% url "wsdl_detail" pk=wsdl.pk %}">{{ wsdl.name }}</a></h1>
-            <h1><a href="{% url "method_list" wsdl.id %}">{{ wsdl.name }}</a></h1>
+            <h1><a href="{% url "method_list" wsdl.id %}">Methods</a></h1>
             <p>{{ wsdl.endpoint }}</p>
         </div>
     {% endfor %}
