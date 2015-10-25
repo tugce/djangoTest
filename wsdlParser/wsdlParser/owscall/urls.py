@@ -8,5 +8,5 @@ urlpatterns = [
     url(r'^wsdl/(?P<pk>[0-9]+)/edit/$', views.wsdl_edit, name='wsdl_edit'),
     url(r'^methods/(?P<wsdl_id>\d+)$', views.method_list, name='method_list'),
     url(r'^method/(?P<pk>[0-9]+)/$', views.method_detail, name='method_detail'),
-    url(r'^method/(?P<pk>[0-9]+)/$', views.method_detail_request, name='method_detail_request'),
+    url(r'^method/(?P<pk>[0-9]+)/request/$', views.method_detail_request, name='method_detail_request'),
 ]

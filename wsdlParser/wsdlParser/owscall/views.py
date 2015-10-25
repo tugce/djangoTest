@@ -3,6 +3,7 @@ from .models import Wsdl, Method
 from django.shortcuts import redirect
 from .forms import WsdlForm
 from suds.client import Client
+
 import logging.config
 # Create your views here.
 def wsdl_list(request):
@@ -25,7 +26,33 @@ def wsdl_new(request):
                 methodW = Method()
                 methodW.wsdlId = wsdl
                 methodW.name = method.name
-                methodW.paremeters = method.soap.input.body.parts
+                parameter = open("parameter.txt", "a")
+                parameter.write(str(client))
+                parameter.close()
+                parameter = open("parameter.txt", "r")
+                with parameter as test:
+                    array = []
+                    for line in test:
+                        array.append(line)
+                temp = 0
+                for i in range(0, len(array)):
+                    array[i] = array[i].replace(" ", "")
+                    if("Methods" in array[i]):
+                        temp = i
+                methods = []
+                kontrol = True
+                for j in range(temp, len(array)):
+                    if("Types" not in array[j] and kontrol):
+                        methods.append(array[j])
+                        print array[j]
+                    else:
+                        kontrol = False
+                for i in range(0, len(methods)):
+                    p1 = methods[i].split("(")
+                    p2 = str(p1[1]).split(")")
+                    p3 = str(p2).split(",")
+                    methodW.paremeters = str(p3)
+                parameter.close()
                 methodW.save()
             return redirect('owscall.views.wsdl_detail', pk=wsdl.pk)
     else:
@@ -53,9 +80,9 @@ def method_detail(request, pk):
 def method_detail_request(request, pk):
     print "inside method detail request"
     method = get_object_or_404(Method, pk=pk)
-    print method
-    client = Client(method.wsdlId)
-    print client
-    result = getattr(client.service, method.name)()
-    print result
+    print method.name
+    client = Client(method.wsdlId.name)
+    print client.wsdl.services[0].ports[0]
+    #result = getattr(client.service, method.name)(True)
+    #print result
     return render(request, 'owscall/method_detail_request.html')

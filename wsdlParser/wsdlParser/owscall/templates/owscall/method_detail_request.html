@@ -7,8 +7,6 @@
                 {{ method.name }}
             </div>
         {% endif %}
-        <h1>{{ method.name }}</h1>
         <p>{{ method.paremeters }}</p>
-        <a class="btn btn-default" href="{% url "method_detail_request" pk=method.pk %}"><span class="glyphicon glyphicon-tasks"></span></a>
     </div>
 {% endblock %}
